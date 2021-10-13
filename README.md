@@ -1,5 +1,3 @@
-# Web API Standards
-
 ### Conteúdo
 1. [Guidelines](#guidelines)
 2. [RESTful URLs](#restful-urls)
