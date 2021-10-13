@@ -63,7 +63,7 @@ O efeito de uma solicitação específica deve depender de o recurso ser uma col
 GET http://api.example.com/customers
 ```json
 {
-  "metadata:{
+  "metadata":{
     "type":"list",
     "count":1,
     "offset":10,
@@ -96,7 +96,7 @@ GET http://api.example.com/customers
 GET http://api.example.com/customers/2d38df3c-8b37-4a6c-ac28-594806e30dc2
 ```json
 {
-  "metadata:{
+  "metadata":{
     "type":"object"
   },
   
