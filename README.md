@@ -60,26 +60,64 @@ O efeito de uma solicitação específica deve depender de o recurso ser uma col
 - Os metadados devem conter apenas propriedades diretas do conjunto de resposta, não propriedades dos membros do conjunto de resposta
 
 ### Exemplo
+GET http://api.example.com/customers
+```json
+{
+  "metadata:{
+    "type":"list",
+    "count":1,
+    "offset":10,
+    "limit": 10
+  },
+  
+  "results":[
+    {
+     "id":"2d38df3c-8b37-4a6c-ac28-594806e30dc2",
+     "name":"Blue Tree Premium Alphaville",
+     "address":"Alameda Madeira, 398 - Alphaville, Barueri - SP, 06454-010",
+     "reviews":[{
+        "id":"e38def1b-3646-43ee-aa78-9de43c1fd61a",
+        "subscriber_id":"b5f3b669-5b07-4c00-a357-c5b657ea753a",
+        "subscriber_name":"b5f3b669-5b07-4c00-a357-c5b657ea753a",
+        "ranking":3.5,
+        "comments":"Nice"
+     }],
+     "photos":[{
+        "id":"cef59c9b-461f-4342-bc2d-f7bbd6299d06",
+        "title":"Blue Tree Premium Alphaville - Quarto",
+        "description":"Quarto de Casal",
+        "url":"https://api.example.comm/images/cef59c9b-461f-4342-bc2d-f7bbd6299d06"
+      }]
+    }
+  ]
+}
+```
 
 GET http://api.example.com/customers/2d38df3c-8b37-4a6c-ac28-594806e30dc2
 ```json
 {
- "id":"2d38df3c-8b37-4a6c-ac28-594806e30dc2",
- "name":"Blue Tree Premium Alphaville",
- "address":"Alameda Madeira, 398 - Alphaville, Barueri - SP, 06454-010",
- "reviews":[{
-    "id":"e38def1b-3646-43ee-aa78-9de43c1fd61a",
-    "subscriber_id":"b5f3b669-5b07-4c00-a357-c5b657ea753a",
-    "subscriber_name":"b5f3b669-5b07-4c00-a357-c5b657ea753a",
-    "ranking":3.5,
-    "comments":"Nice"
- }],
- "photos":[{
-    "id":"cef59c9b-461f-4342-bc2d-f7bbd6299d06",
-    "title":"Blue Tree Premium Alphaville - Quarto",
-    "description":"Quarto de Casal",
-    "url":"https://api.example.comm/images/cef59c9b-461f-4342-bc2d-f7bbd6299d06"
-  }]
+  "metadata:{
+    "type":"object"
+  },
+  
+  "results":{
+     "id":"2d38df3c-8b37-4a6c-ac28-594806e30dc2",
+     "name":"Blue Tree Premium Alphaville",
+     "address":"Alameda Madeira, 398 - Alphaville, Barueri - SP, 06454-010",
+     "reviews":[{
+        "id":"e38def1b-3646-43ee-aa78-9de43c1fd61a",
+        "subscriber_id":"b5f3b669-5b07-4c00-a357-c5b657ea753a",
+        "subscriber_name":"b5f3b669-5b07-4c00-a357-c5b657ea753a",
+        "ranking":3.5,
+        "comments":"Nice"
+     }],
+     "photos":[{
+        "id":"cef59c9b-461f-4342-bc2d-f7bbd6299d06",
+        "title":"Blue Tree Premium Alphaville - Quarto",
+        "description":"Quarto de Casal",
+        "url":"https://api.example.comm/images/cef59c9b-461f-4342-bc2d-f7bbd6299d06"
+      }]
+    }
 }
 ```
 ### Manipulação de erros
