@@ -70,7 +70,7 @@ GET http://api.example.com/customers
         "count":100,
         "limit":10
     },
-    "results": [{
+    "data": [{
         "id":"2d38df3c-8b37-4a6c-ac28-594806e30dc2",
         "name": "Albert Einstein",
         "email": "albert.einstein@mit.com.br"
@@ -81,7 +81,7 @@ GET http://api.example.com/customers
 GET http://api.example.com/customers/2d38df3c-8b37-4a6c-ac28-594806e30dc2
 ```json
 {
-    "results": {
+    "data": {
         "id":"2d38df3c-8b37-4a6c-ac28-594806e30dc2",
         "name": "Albert Einstein",
         "email": "albert.einstein@mit.com.br"
