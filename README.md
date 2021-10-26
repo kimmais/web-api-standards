@@ -5,6 +5,7 @@
 2. [RESTful URLs](#restful-urls)
 3. [Definir operações em termos de métodos HTTP](#definir-operações-em-termos-de-métodos-http)
 4. [Response](#responses)
+5. [Webhooks](#webhooks)
 
 
 ## Guidelines
@@ -26,15 +27,16 @@ the Design of Network-based Software Architectures](https://www.ics.uci.edu/~fie
 - Os formatos devem estar no formato  resource/{id}
 
 ### Exemplos de URLs
-- Lista acomodações
+
+- Lista clientes
   - GET http://api.example.com/customers
 - Consulta com filtros
-  - GET http://api.example.com/customers?namme=PAULO&sort=desc
-  - GET http://api.example.com/customers?destination=paulo&company=tacom
-- Consultando os reviews de um determinado hotal
-  - GET http://api.example.com/customers/2d38df3c-8b37-4a6c-ac28-594806e30dc2/addresses
-- Adicionando um novo review em um determinado hotel ou acomodação
-  - POST http://api.example.com/customers/2d38df3c-8b37-4a6c-ac28-594806e30dc2/addresses
+  - GET http://api.example.com/v1/customers?offset=10&limit=10&sort_by=name&sort_order=asc
+  - GET http://api.example.com/v1/customers?query=name:Albert&offset=10&limit=10&sort_by=name&sort_order=asc
+- Consultando os endereço do cliente
+  - GET http://api.example.com/v1/customers/2d38df3c-8b37-4a6c-ac28-594806e30dc2/addresses
+- Adicionando um novo endereço em um determinado hotel ou acomodação
+  - POST http://api.example.com/v1/customers/2d38df3c-8b37-4a6c-ac28-594806e30dc2/addresses
 
 ## Definir operações em termos de métodos HTTP
 
@@ -63,63 +65,31 @@ O efeito de uma solicitação específica deve depender de o recurso ser uma col
 GET http://api.example.com/customers
 ```json
 {
-  "metadata":{
-    "type":"list",
-    "count":1,
-    "offset":10,
-    "limit": 10
-  },
-  
-  "results":[
-    {
-     "id":"2d38df3c-8b37-4a6c-ac28-594806e30dc2",
-     "name":"Blue Tree Premium Alphaville",
-     "address":"Alameda Madeira, 398 - Alphaville, Barueri - SP, 06454-010",
-     "reviews":[{
-        "id":"e38def1b-3646-43ee-aa78-9de43c1fd61a",
-        "subscriber_id":"b5f3b669-5b07-4c00-a357-c5b657ea753a",
-        "subscriber_name":"b5f3b669-5b07-4c00-a357-c5b657ea753a",
-        "ranking":3.5,
-        "comments":"Nice"
-     }],
-     "photos":[{
-        "id":"cef59c9b-461f-4342-bc2d-f7bbd6299d06",
-        "title":"Blue Tree Premium Alphaville - Quarto",
-        "description":"Quarto de Casal",
-        "url":"https://api.example.comm/images/cef59c9b-461f-4342-bc2d-f7bbd6299d06"
-      }]
-    }
-  ]
+    "metadata": {
+        "offset":10,
+        "count":100,
+        "limit":10
+    },
+    "results": [{
+        "id":"2d38df3c-8b37-4a6c-ac28-594806e30dc2",
+        "name": "Albert Einstein",
+        "email": "albert.einstein@mit.com.br"
+    }]
 }
 ```
 
 GET http://api.example.com/customers/2d38df3c-8b37-4a6c-ac28-594806e30dc2
 ```json
 {
-  "metadata":{
-    "type":"object"
-  },
-  
-  "results":{
-     "id":"2d38df3c-8b37-4a6c-ac28-594806e30dc2",
-     "name":"Blue Tree Premium Alphaville",
-     "address":"Alameda Madeira, 398 - Alphaville, Barueri - SP, 06454-010",
-     "reviews":[{
-        "id":"e38def1b-3646-43ee-aa78-9de43c1fd61a",
-        "subscriber_id":"b5f3b669-5b07-4c00-a357-c5b657ea753a",
-        "subscriber_name":"b5f3b669-5b07-4c00-a357-c5b657ea753a",
-        "ranking":3.5,
-        "comments":"Nice"
-     }],
-     "photos":[{
-        "id":"cef59c9b-461f-4342-bc2d-f7bbd6299d06",
-        "title":"Blue Tree Premium Alphaville - Quarto",
-        "description":"Quarto de Casal",
-        "url":"https://api.example.comm/images/cef59c9b-461f-4342-bc2d-f7bbd6299d06"
-      }]
+    "results": {
+        "id":"2d38df3c-8b37-4a6c-ac28-594806e30dc2",
+        "name": "Albert Einstein",
+        "email": "albert.einstein@mit.com.br"
     }
 }
 ```
+
+
 ### Manipulação de erros
 As respostas de erro devem incluir um código de status HTTP comum, mensagem para o desenvolvedor, ou mensagem para o usuário final (quando apropriado), código de erro interno (correspondente a algum ID determinado internamente).
 
@@ -136,3 +106,33 @@ Use três códigos de resposta simples e comuns indicando (1) sucesso, (2) falha
 A implementação desse recurso no início do desenvolvimento garante que a API exibirá um comportamento consistente, suportando uma metodologia de desenvolvimento orientada a testes.
 
 Observação: se o parâmetro simulado for incluído em uma solicitação para o ambiente de produção, um erro deve ser gerado.
+
+
+# Webhooks
+Modelos para criação de Webhook
+
+```http
+POST /v1/employees/webhook
+Content-Type: application/json; charset=utf-8
+Accept: application/json; 
+```
+
+
+## Conteúdo da requisição
+Como mencionado acima, o conteúdo da requisição estará contido em seu no corpo (body), no formato JSON:
+
+```json
+{  
+  "event":{  
+    "type":"customer_created",
+    "created_at":"2014-10-02T22:35:57.477-03:00",
+    "data":{  
+      "customer":{  
+        {...}
+      }
+    }
+  }
+}
+```
+
+
